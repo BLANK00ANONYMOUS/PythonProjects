@@ -9,6 +9,3 @@ class Solution(object):
             res += sums[currSum]
             sums[currSum] += 1
         return res
-
-
-
