@@ -1,23 +1,18 @@
+from typing import List
+
+
 class Solution:
-    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
-        if not num:
-            return [int(d) for d in str(k)]
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m, n = len(obstacleGrid), len(obstacleGrid[0])
 
-        carry = 0
-        res = []
-        for i in range(len(num) - 1, -1, -1):
-            total = num[i] + carry + (k % 10)
-            carry = total // 10
-            res.append(total % 10)
-            k //= 10
+        dp = [0] * n
+        dp[n - 1] = 1
 
-        while k > 0:
-            total = carry + (k % 10)
-            carry = total // 10
-            res.append(total % 10)
-            k //= 10
+        for r in reversed(range(m)):
+            for c in reversed(range(n)):
+                if obstacleGrid[r][c]:
+                    dp[c] = 0
+                elif c + 1 < n:
+                    dp[c] = dp[c] + dp[c + 1]
 
-        if carry > 0:
-            res.append(carry)
-
-        return res[::-1]
+        return dp[0]
